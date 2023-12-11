@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "{{cookiecutter-project-slug}}"
+name = "{{cookiecutter.project_slug}}"
 version = "{{cookiecutter.version}}"
 description = "{{cookiecutter.project_short_description}}"
 authors = ["{{cookiecutter.author}} <{{cookiecutter.email}}>"]
@@ -28,7 +28,7 @@ blue = "*"
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
 exclude = ['.venv', '.ruff_cache', '.git']
-line-length = {{ cookiecutter.__line_width }}
+line-length = {{ cookiecutter._line_width }}
 indent-width = 4
 select = [
     "A",    # flake8-builtins
@@ -50,7 +50,7 @@ select = [
     "C90",  # mccabe
 ]
 ignore = ["A003"]
-target-version = "{{ cookiecutter.target_version }}"
+target-version = "{{ cookiecutter.__target_version }}"
 
 [tool.ruff.lint]
 select = ["D"]

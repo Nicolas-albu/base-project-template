@@ -2,15 +2,19 @@
     "author": "Your Name",
     "email": "your.email@example.com",
     "github_username": "Your Github Username",
+    
     "project_name": "Project Base",
     "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
     "project_short_description": "",
     "version": "0.1.0",
+
     "python_version": "3.11.6",
+    "_target_version": "{% set target_version = cookiecutter.python_version.split('.') %}{{ target_version[0] ~ target_version[1] }}",
+    "__target_version": "{{'py' ~ cookiecutter._target_version}}",
+
     "line-width": ["long", "medium", "short"],
-    "_line_width": {"long": 100, "medium": 88, "short": 72},
-    "_target_version": "{{ cookiecutter.python_version.split('.') }}",
-    "target_version": "py{{_target_version[0] + _target_version[1]}}",
+    "_line_width": "{% set widths = {'long': 100, 'medium': 88, 'short': 72} %}{{ widths[cookiecutter.line-width] if cookiecutter.line-width in widths else '' }}",
+
     "open_source_license": [
         "MIT",
         "BSD",
