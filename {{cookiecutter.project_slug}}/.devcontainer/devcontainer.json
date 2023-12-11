@@ -1,0 +1,68 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/postgres
+{
+	"name": "{{ cookiecutter.project_name }} Dev Container",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/poetry:2": {}
+	},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// This can be used to network with other containers or the host.
+	"forwardPorts": [5432],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "pip install --user -r requirements.txt",
+	"postCreateCommand": "poetry install",
+
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"charliermarsh.ruff",
+				"ms-python.vscode-pylance",
+				"usernamehw.errorlens"
+			],
+			"settings": {
+				// General Settings
+				"files.autoSave": "onFocusChange",
+
+				// Python Settings
+				"[python]": {
+					"editor.formatOnType": true,
+					"editor.formatOnSave": true,
+					"editor.codeActionsOnSave": {
+					"source.fixAll": "explicit",
+					"source.organizeImports": "explicit"
+					},
+					"editor.defaultFormatter": "charliermarsh.ruff"
+				},
+				"python.analysis.typeCheckingMode": "basic",
+				"python.analysis.completeFunctionParens": true,
+				"python.terminal.activateEnvironment": true,
+				"python.analysis.autoImportCompletions": true,
+				"python.terminal.activateEnvInCurrentTerminal": true,
+			
+				// Ruff Formatter Settings
+				"ruff.showNotifications": "always",
+				"ruff.importStrategy": "fromEnvironment",
+				"ruff.organizeImports": true,
+			
+				// Pytest Settings
+				"python.testing.pytestArgs": ["tests"],
+				"python.testing.unittestEnabled": false,
+				"python.testing.pytestEnabled": true,
+				"python.testing.cwd": "${workspaceFolder}/tests",
+				"python.testing.autoTestDiscoverOnSaveEnabled": true
+			}
+		}
+	},
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	"remoteUser": "root"
+}
