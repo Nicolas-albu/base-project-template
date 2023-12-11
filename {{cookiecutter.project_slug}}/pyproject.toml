@@ -2,10 +2,10 @@
 name = "{{cookiecutter-project-slug}}"
 version = "{{cookiecutter.version}}"
 description = "{{cookiecutter.project_short_description}}"
-authors = ["{{cookiecutter.full_name}} <{{cookiecutter.email}}>"]
+authors = ["{{cookiecutter.author}} <{{cookiecutter.email}}>"]
 license = "{{cookiecutter.open_source_license}}"
 readme = "README.md"
-packages = [{include = "{{cookiecutter"}]
+packages = [{include = "{{cookiecutter.project_slug}}"}]
 
 [tool.poetry.dependencies]
 python = "{{ cookiecutter.python_version }}"
@@ -13,6 +13,7 @@ python = "{{ cookiecutter.python_version }}"
 [tool.poetry.group.dev.dependencies]
 taskipy = "*"
 pytest = "*"
+pytest-cov = "*"
 ipdb = "*"
 ruff = "*"
 pycodestyle = "*"
@@ -27,18 +28,28 @@ blue = "*"
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
 exclude = ['.venv', '.ruff_cache', '.git']
-line-length = 88
+line-length = {{ cookiecutter.__line_width }}
 indent-width = 4
 select = [
-    "E",  # pycodestyle errors
-    "W",  # pycodestyle warnings
-    "F",  # pyflakes
-    "I",  # isort
+    "A",    # flake8-builtins
+    "ARG",  # flake8-unused-arguments
+    "B",    # flake8-bugbear
+    "C",    # flake8-comprehensions
+    "C4",   # flake8-comprehensions
+    "E",    # pycodestyle errors
+    "ERA",  # eradicate
+    "F",    # pyflakes
+    "I",    # isort
+    "N",    # pep8-naming
+    "PL",   # Pylint
+    "RET",  # flake8-return
+    "S",    # flake8-bandit
+    "T10",  # flake8-debugger
+    "UP",   # pyupgrade
+    "W",    # pycodestyle warnings
     "C90",  # mccabe
-    "C",  # flake8-comprehensions
-    "B",  # flake8-bugbear
-    "UP", # pyupgrade
 ]
+ignore = ["A003"]
 target-version = "{{ cookiecutter.target_version }}"
 
 [tool.ruff.lint]
@@ -50,12 +61,12 @@ ignore = [
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"  # Use Google-style docstrings.
-# max-line-length = 88
 
 # 4. Ignore `E402` (import violations) in all `__init__.py` files, and in select subdirectories.
 [tool.ruff.lint.per-file-ignores]
-"__init__.py" = ["E402"]
+"__init__.py" = ["E402", "F401"]
 "**/{tests,docs}/*" = ["E402"]
+"tests/**" = ["ARG", "S"]
 
 [tool.isort]
 profile = "black"
@@ -70,8 +81,9 @@ pythonpath = "."
 [tool.taskipy.tasks]
 lint = 'ruff . && blue --check . --diff'
 format = 'blue .  && isort .'
-test = 'pytest -s -x -v'
 pre_test = 'task format'
+test = 'pytest -s -x --cov={{cookiecutter.project_slug}} -vv'
+post_test = 'coverage html'
 
 [build-system]
 requires = ["poetry-core"]

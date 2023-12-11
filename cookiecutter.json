@@ -1,5 +1,5 @@
 {
-    "full_name": "Your Name",
+    "author": "Your Name",
     "email": "your.email@example.com",
     "github_username": "Your Github Username",
     "project_name": "Project Base",
@@ -7,13 +7,17 @@
     "project_short_description": "",
     "version": "0.1.0",
     "python_version": "3.11.6",
-    "__target_version": "{{ cookiecutter.python_version.split('.') }}",
-    "target_version": "py{{__target_version[0] + __target_version[1]}}",
+    "line-width": ["long", "medium", "short"],
+    "_line_width": {"long": 100, "medium": 88, "short": 72},
+    "_target_version": "{{ cookiecutter.python_version.split('.') }}",
+    "target_version": "py{{_target_version[0] + _target_version[1]}}",
     "open_source_license": [
-        "MIT license",
-        "BSD license",
-        "ISC license",
-        "Apache Software License 2.0",
-        "GNU General Public License v3"
-    ]
+        "MIT",
+        "BSD",
+        "ISC",
+        "Apache 2.0",
+        "GNU GPLv3",
+        "not open source"
+    ],
+    "_license": "{{ cookiecutter.open_source_license if cookiecutter.open_source_license != 'not open source' else '' }}"
 }
