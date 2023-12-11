@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "base-project-template"
+version = "0.1.0"
+description = "Template base para projetos Python."
+authors = ["Nícolas Albuquerque Ramos <nicolas.albu@outlook.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

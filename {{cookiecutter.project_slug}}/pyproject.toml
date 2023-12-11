@@ -1,0 +1,78 @@
+[tool.poetry]
+name = "{{cookiecutter-project-slug}}"
+version = "{{cookiecutter.version}}"
+description = "{{cookiecutter.project_short_description}}"
+authors = ["{{cookiecutter.full_name}} <{{cookiecutter.email}}>"]
+license = "{{cookiecutter.open_source_license}}"
+readme = "README.md"
+packages = [{include = "{{cookiecutter"}]
+
+[tool.poetry.dependencies]
+python = "{{ cookiecutter.python_version }}"
+
+[tool.poetry.group.dev.dependencies]
+taskipy = "*"
+pytest = "*"
+ipdb = "*"
+ruff = "*"
+pycodestyle = "*"
+flake8-comprehensions = "*"
+flake8-bugbear = "*"
+pyupgrade = "*"
+pyflakes = "*"
+mccabe = "*"
+isort = "*"
+blue = "*"
+
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = ['.venv', '.ruff_cache', '.git']
+line-length = 88
+indent-width = 4
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C90",  # mccabe
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+    "UP", # pyupgrade
+]
+target-version = "{{ cookiecutter.target_version }}"
+
+[tool.ruff.lint]
+select = ["D"]
+ignore = [
+    "D100", # undocumented-public-module
+    "D104"  # undocumented-public-package
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"  # Use Google-style docstrings.
+# max-line-length = 88
+
+# 4. Ignore `E402` (import violations) in all `__init__.py` files, and in select subdirectories.
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402"]
+"**/{tests,docs}/*" = ["E402"]
+
+[tool.isort]
+profile = "black"
+
+[tool.ruff.format]
+exclude = ["*.pyi"]
+quote-style = "single"
+
+[tool.pytest.ini_options]
+pythonpath = "."
+
+[tool.taskipy.tasks]
+lint = 'ruff . && blue --check . --diff'
+format = 'blue .  && isort .'
+test = 'pytest -s -x -v'
+pre_test = 'task format'
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
